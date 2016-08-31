@@ -222,7 +222,25 @@ male_cor
     ## 0.1882004
 
 ``` r
-#male Pearson's correlation
+#male paired t-test
+male_test <- t.test(Q1_male$male, Q1_male$body_temperature, paired = TRUE)
+male_test
+```
+
+    ## 
+    ##  Paired t-test
+    ## 
+    ## data:  Q1_male$male and Q1_male$body_temperature
+    ## t = 50.807, df = 64, p-value < 2.2e-16
+    ## alternative hypothesis: true difference in means is not equal to 0
+    ## 95 percent confidence interval:
+    ##  35.20228 38.08387
+    ## sample estimates:
+    ## mean of the differences 
+    ##                36.64308
+
+``` r
+#female Pearson's correlation
 female_cor <- with(Q1_female,
                  cor.test(x = female, y = body_temperature,
                           method = 'pearson'))
@@ -241,9 +259,27 @@ female_cor
     ##       cor 
     ## 0.2840149
 
+``` r
+#female paired t-test
+female_test <- t.test(Q1_female$female, Q1_female$body_temperature, paired = TRUE)
+female_test
+```
+
+    ## 
+    ##  Paired t-test
+    ## 
+    ## data:  Q1_female$female and Q1_female$body_temperature
+    ## t = 37.565, df = 64, p-value < 2.2e-16
+    ## alternative hypothesis: true difference in means is not equal to 0
+    ## 95 percent confidence interval:
+    ##  35.28286 39.24637
+    ## sample estimates:
+    ## mean of the differences 
+    ##                37.26462
+
 **Results:**
 
-Males presented with t(63) = 1.521; p = 0.1333 and R<sup>2</sup> (-0.058 to 0.413)= 0.188.
+Males presented with t(64) = 50.81; p &lt; 0.001 and R<sup>2</sup> (-0.058 to 0.413)= 0.188.
 
 Females presented with t(63) = 2.351; p = 0.022 and R<sup>2</sup> (0.043 to 0.494)= 0.284.
 
@@ -422,13 +458,21 @@ Q2_dataFrame
     ## 3      Right                      22              36
     ## 4       Left                      54              40
 
-**Null Hypothesis:**
+**Null Hypothesis:** Handedness is not associated with ataxic walking in intoxicated individuals.
 
-**Alternative Hypothesis:**
+**Alternative Hypothesis:** Handedness is associated with ataxic walking in intoxicated individuals.
 
 **Assumptions:**
 
-1.  2.  3.  4.  5.  
+1.  a = 0.05
+
+2.  Paired data set
+
+3.  Parametric data set
+
+4.  Reject null hypothesis if p &lt; a
+
+5.  Fisher's exact test with a Holm adustment method will be required to test hypothesis.
 
 ------------------------------------------------------------------------
 

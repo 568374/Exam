@@ -113,21 +113,29 @@ male_cor <- with(Q1_male,
                           method = 'pearson'))
 male_cor
 
-#male Pearson's correlation
+#male paired t-test
+male_test <- t.test(Q1_male$male, Q1_male$body_temperature, paired = TRUE)
+male_test
+
+#female Pearson's correlation
 female_cor <- with(Q1_female,
                  cor.test(x = female, y = body_temperature,
                           method = 'pearson'))
 female_cor
+
+#female paired t-test
+female_test <- t.test(Q1_female$female, Q1_female$body_temperature, paired = TRUE)
+female_test
 ```
 **Results:**
 
-Males presented with t(63) = 1.521; p = 0.1333 and R^2^ (-0.058 to 0.413)= 0.188.
+Males presented with t(64) = 50.81; p < 0.001 and R^2^= 0.188; F(0.384)=2.313
 
-Females presented with t(63) = 2.351; p = 0.022 and R^2^ (0.043 to 0.494)= 0.284.
+Females presented with t(64) = 37.57; p < 0.001 and R^2^= 0.284; F(0.399)=5.528
 
 p < a, thus reject null hypotheis and accept alternative.
 
-**Conclusion:** In conclusion there is a weak, positive association between heart rates in males and females and their body temperature.
+**Conclusion:** In conclusion there is a weak, positive association between heart rates in both males and females and their body temperature.
 
 ****
 
@@ -215,24 +223,24 @@ Q2_dataFrame <- data.frame(Handedness = c('Right', 'Left'),
 Q2_dataFrame
 ```
 
-**Null Hypothesis:** 
+**Null Hypothesis:** Handedness is not associated with ataxic walking in intoxicated individuals.
 
-**Alternative Hypothesis:**
+**Alternative Hypothesis:** Handedness is associated with ataxic walking in intoxicated individuals.
 
 **Assumptions:**
 
-1.
+1. a = 0.05
 
-2.
+2. Paired data set
 
-3.
+3. Parametric data set
 
-4.
+4. Reject null hypothesis if p < a
 
-5.
+5. Fisher's exact test with a Holm adustment method will be required to test hypothesis.
 
 ```{r Q2_test}
-
+#
 ```
 ****
 
@@ -313,7 +321,7 @@ CaloriesC
 ```
 **Results:** 
 
-t(17) = -3.771; p = 0.002 and R^2^(-0.864 to -0.318) = -0.674.
+t(17) = -3.771; p = 0.002 and R^2^= -0.674; F(17)= 14.22
 
 p < a, thus reject null hypothesis.
 
