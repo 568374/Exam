@@ -6,8 +6,8 @@ August 31, 2016
 Question 1
 ==========
 
-Body Temperature between males and female heart rates
------------------------------------------------------
+Body Temperature association between males and female heart rates
+-----------------------------------------------------------------
 
 ``` r
 #load data set
@@ -279,18 +279,18 @@ female_test
 
 **Results:**
 
-Males presented with t(64) = 50.81; p &lt; 0.001 and R<sup>2</sup> (-0.058 to 0.413)= 0.188.
+Males presented with t(64) = 50.81; p &lt; 0.001 and R<sup>2</sup>= 0.188; F(0.384)=2.313
 
-Females presented with t(63) = 2.351; p = 0.022 and R<sup>2</sup> (0.043 to 0.494)= 0.284.
+Females presented with t(64) = 37.57; p &lt; 0.001 and R<sup>2</sup>= 0.284; F(0.399)=5.528
 
 p &lt; a, thus reject null hypotheis and accept alternative.
 
-**Conclusion:** In conclusion there is a weak, positive association between heart rates in males and females and their body temperature.
+**Conclusion:** In conclusion there is a weak, positive association between heart rates in both males and females and their body temperature.
 
 ------------------------------------------------------------------------
 
-Question 2
-==========
+Question 2 (*incomplete*)
+=========================
 
 Handedness compared to ataxic walking and intoxication
 ------------------------------------------------------
@@ -332,6 +332,7 @@ head(Q2_data2)
 
 ``` r
 #Counts (handedness and first stumble)
+#Right hand with right side
 rightS_side <- Q2_data2 %>%
   filter(handedness == 1) %>%
 filter(first_stumble == 1)
@@ -346,6 +347,7 @@ rightS_count
     ## 1    53
 
 ``` r
+#Left hand with left side
 leftS_side <- Q2_data2 %>%
   filter(handedness == 0) %>%
   filter(first_stumble == 0)
@@ -360,6 +362,7 @@ leftS_count
     ## 1    54
 
 ``` r
+#Right hand with left side
 rightS_left <- Q2_data2 %>%
   filter(handedness == 1) %>%
   filter(first_stumble == 0)
@@ -374,6 +377,7 @@ rightS_left_count
     ## 1    22
 
 ``` r
+#Left hand with right side
 leftS_right <- Q2_data2 %>%
   filter(handedness == 0) %>%
   filter(first_stumble == 1)
@@ -389,6 +393,7 @@ left_rightS_count
 
 ``` r
 #Counts (handedness and position and end of walk)
+#Right hand with right side
 right_side <- Q2_data %>%
   filter(handedness == 1) %>%
 filter(final_position == 1)
@@ -403,6 +408,7 @@ right_count
     ## 1    48
 
 ``` r
+#Left hand with left side
 left_side <- Q2_data %>%
   filter(handedness == 0) %>%
   filter(final_position == 0)
@@ -417,6 +423,7 @@ left_count
     ## 1    40
 
 ``` r
+#Right hand with left side
 right_left <- Q2_data %>%
   filter(handedness == 1) %>%
   filter(final_position == 0)
@@ -431,6 +438,7 @@ right_left_count
     ## 1    27
 
 ``` r
+#Left hand with right side
 left_right <- Q2_data %>%
   filter(handedness == 0) %>%
   filter(final_position == 1)
@@ -458,6 +466,25 @@ Q2_dataFrame
     ## 3      Right                      22              36
     ## 4       Left                      54              40
 
+``` r
+#plot data
+direction_plot <- xtabs(~Handedness + Direction_first_stumble, data = Q2_dataFrame)
+mosaicplot(direction_plot,
+           main = 'Mosaic plot representing direction of first stumble between right and left handed individuals',
+           xlab = 'Handedness', ylab = 'Number of people')
+```
+
+<img src="figure/Q2_load-1.png" style="display: block; margin: auto;" />
+
+``` r
+position_plot <- xtabs(~Handedness + Position_at_end, data = Q2_dataFrame)
+mosaicplot(position_plot,
+           main = 'Mosaic plot representing position at the end of line between right and left handed individuals', 
+           xlab = 'Handedness', ylab = 'Number of people')
+```
+
+<img src="figure/Q2_load-2.png" style="display: block; margin: auto;" />
+
 **Null Hypothesis:** Handedness is not associated with ataxic walking in intoxicated individuals.
 
 **Alternative Hypothesis:** Handedness is associated with ataxic walking in intoxicated individuals.
@@ -474,13 +501,22 @@ Q2_dataFrame
 
 5.  Fisher's exact test with a Holm adustment method will be required to test hypothesis.
 
+``` r
+#Test counts of first stumble and position and the end line with handedness of individuals.
+
+#handedness and stumble test
+
+
+#handedness and position at the end test
+```
+
 ------------------------------------------------------------------------
 
 Question 3
 ==========
 
-Can running time be used to predict calories burned
----------------------------------------------------
+Can running time be used to predict calories burned?
+----------------------------------------------------
 
 ``` r
 #load data set
@@ -597,7 +633,7 @@ regco
     ## 939.3642218  -0.2803149
 
 ``` r
-#fit coeffiecients into formula
+#fit coeffiecients into regression formula
 origTime <- 30
 decTimeSec <- origTime * 60
 run_time <- mean(df_Q3$run) - decTimeSec
@@ -610,7 +646,7 @@ CaloriesC
 
 **Results:**
 
-t(17) = -3.771; p = 0.002 and R<sup>2</sup>(-0.864 to -0.318) = -0.674.
+t(17) = -3.771; p = 0.002 and R<sup>2</sup>= -0.674; F(17)= 14.22
 
 p &lt; a, thus reject null hypothesis.
 
@@ -661,6 +697,7 @@ mark_plot <- plot(x = project_mark, y = final_mark,
      main = 'Scatter plot representing project mark vs. final mark of BSc Honours Physiology students',
      xlab = 'Project mark (%)', ylab = 'Final year mark (%)')
 
+#regression line
 mark_regl <- lm(final_mark~project_mark)
 abline(mark_regl)
 ```
@@ -668,6 +705,7 @@ abline(mark_regl)
 <img src="figure/Q4_dirty-1.pdf" style="display: block; margin: auto;" />
 
 ``` r
+#print summary of regression
 summary(mark_regl)
 ```
 

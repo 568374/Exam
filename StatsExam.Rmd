@@ -2,7 +2,7 @@
 title: "PHSL4005 Stats. Exam"
 author: "Vishaylin J. Mahadeo"
 date: "August 31, 2016"
-output: github_document
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
@@ -20,7 +20,7 @@ library(tidyr)
 ```
 
 # Question 1
-## Body Temperature between males and female heart rates
+## Body Temperature association between males and female heart rates
 
 ```{r Q1_load}
 #load data set
@@ -139,7 +139,7 @@ p < a, thus reject null hypotheis and accept alternative.
 
 ****
 
-# Question 2
+# Question 2 (_incomplete_)
 ## Handedness compared to ataxic walking and intoxication
 
 ```{r Q2_load}
@@ -158,6 +158,7 @@ head(Q2_data, 6)
 head(Q2_data2)
 
 #Counts (handedness and first stumble)
+#Right hand with right side
 rightS_side <- Q2_data2 %>%
   filter(handedness == 1) %>%
 filter(first_stumble == 1)
@@ -165,6 +166,7 @@ filter(first_stumble == 1)
 rightS_count <- count(rightS_side)
 rightS_count
 
+#Left hand with left side
 leftS_side <- Q2_data2 %>%
   filter(handedness == 0) %>%
   filter(first_stumble == 0)
@@ -172,6 +174,7 @@ leftS_side <- Q2_data2 %>%
 leftS_count <- count(leftS_side)
 leftS_count
 
+#Right hand with left side
 rightS_left <- Q2_data2 %>%
   filter(handedness == 1) %>%
   filter(first_stumble == 0)
@@ -179,6 +182,7 @@ rightS_left <- Q2_data2 %>%
 rightS_left_count <- count(rightS_left)
 rightS_left_count
 
+#Left hand with right side
 leftS_right <- Q2_data2 %>%
   filter(handedness == 0) %>%
   filter(first_stumble == 1)
@@ -188,6 +192,7 @@ left_rightS_count
 
 
 #Counts (handedness and position and end of walk)
+#Right hand with right side
 right_side <- Q2_data %>%
   filter(handedness == 1) %>%
 filter(final_position == 1)
@@ -195,6 +200,7 @@ filter(final_position == 1)
 right_count <- count(right_side)
 right_count
 
+#Left hand with left side
 left_side <- Q2_data %>%
   filter(handedness == 0) %>%
   filter(final_position == 0)
@@ -202,6 +208,7 @@ left_side <- Q2_data %>%
 left_count <- count(left_side)
 left_count
 
+#Right hand with left side
 right_left <- Q2_data %>%
   filter(handedness == 1) %>%
   filter(final_position == 0)
@@ -209,6 +216,7 @@ right_left <- Q2_data %>%
 right_left_count <- count(right_left)
 right_left_count
 
+#Left hand with right side
 left_right <- Q2_data %>%
   filter(handedness == 0) %>%
   filter(final_position == 1)
@@ -221,6 +229,17 @@ Q2_dataFrame <- data.frame(Handedness = c('Right', 'Left'),
                            Direction_first_stumble = c(53,22,22,54),
                            Position_at_end = c(48,27,36,40))
 Q2_dataFrame
+
+#plot data
+direction_plot <- xtabs(~Handedness + Direction_first_stumble, data = Q2_dataFrame)
+mosaicplot(direction_plot,
+           main = 'Mosaic plot representing direction of first stumble between right and left handed individuals',
+           xlab = 'Handedness', ylab = 'Number of people')
+
+position_plot <- xtabs(~Handedness + Position_at_end, data = Q2_dataFrame)
+mosaicplot(position_plot,
+           main = 'Mosaic plot representing position at the end of line between right and left handed individuals', 
+           xlab = 'Handedness', ylab = 'Number of people')
 ```
 
 **Null Hypothesis:** Handedness is not associated with ataxic walking in intoxicated individuals.
@@ -240,12 +259,18 @@ Q2_dataFrame
 5. Fisher's exact test with a Holm adustment method will be required to test hypothesis.
 
 ```{r Q2_test}
-#
+#Test counts of first stumble and position and the end line with handedness of individuals.
+
+#handedness and stumble test
+
+
+#handedness and position at the end test
+
 ```
 ****
 
 # Question 3
-## Can running time be used to predict calories burned
+## Can running time be used to predict calories burned?
 
 ```{r Q3_load}
 #load data set
@@ -312,7 +337,7 @@ run_cor
 regco <- coefficients(run_rgl)
 regco
 
-#fit coeffiecients into formula
+#fit coeffiecients into regression formula
 origTime <- 30
 decTimeSec <- origTime * 60
 run_time <- mean(df_Q3$run) - decTimeSec
@@ -357,9 +382,13 @@ mark_plot <- plot(x = project_mark, y = final_mark,
      main = 'Scatter plot representing project mark vs. final mark of BSc Honours Physiology students',
      xlab = 'Project mark (%)', ylab = 'Final year mark (%)')
 
+#regression line
 mark_regl <- lm(final_mark~project_mark)
 abline(mark_regl)
+
+#print summary of regression
 summary(mark_regl)
+
 ```
 **Explanation of axis:**
 
