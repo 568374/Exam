@@ -1,0 +1,11 @@
+---
+title: "PHSL4005 Stats. Exam"
+author: "Vishaylin J. Mahadeo"
+date: "August 31, 2016"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+

@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "---\ntitle: \"PHSL4005 Stats. Exam\"\nauthor: \"Vishaylin J. Mahadeo\"\ndate: \"August 31, 2016\"\noutput: github_document\n---\n\n```{r setup, include=FALSE}\nknitr::opts_chunk$set(echo = TRUE)\n```\n\n",
+    "created" : 1472627897840.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2606982519",
+    "id" : "1C8AE1A1",
+    "lastKnownWriteTime" : 1472627918,
+    "last_content_update" : -2147483648,
+    "path" : "~/My School Work/WITS/Postgrad- Honours/PHSL4005_CourseWork/Module 1 (Assignments)/Stats/Tasks/StatsExam/StatsExam.Rmd",
+    "project_path" : "StatsExam.Rmd",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
