@@ -138,8 +138,81 @@ p < a, thus reject null hypotheis and accept alternative.
 #load data set
 df_Q2 <- read.csv('question2.csv')
 
-#plot data set
+#select data
+Q2_data <- df_Q2 %>%
+  select(handedness, final_position)
 
+Q2_data2 <- df_Q2 %>%
+  select(handedness, first_stumble)
+         
+#display data
+head(Q2_data, 6)
+head(Q2_data2)
+
+#Counts (handedness and first stumble)
+rightS_side <- Q2_data2 %>%
+  filter(handedness == 1) %>%
+filter(first_stumble == 1)
+  
+rightS_count <- count(rightS_side)
+rightS_count
+
+leftS_side <- Q2_data2 %>%
+  filter(handedness == 0) %>%
+  filter(first_stumble == 0)
+  
+leftS_count <- count(leftS_side)
+leftS_count
+
+rightS_left <- Q2_data2 %>%
+  filter(handedness == 1) %>%
+  filter(first_stumble == 0)
+
+rightS_left_count <- count(rightS_left)
+rightS_left_count
+
+leftS_right <- Q2_data2 %>%
+  filter(handedness == 0) %>%
+  filter(first_stumble == 1)
+
+left_rightS_count <- count(leftS_right)
+left_rightS_count
+
+
+#Counts (handedness and position and end of walk)
+right_side <- Q2_data %>%
+  filter(handedness == 1) %>%
+filter(final_position == 1)
+  
+right_count <- count(right_side)
+right_count
+
+left_side <- Q2_data %>%
+  filter(handedness == 0) %>%
+  filter(final_position == 0)
+  
+left_count <- count(left_side)
+left_count
+
+right_left <- Q2_data %>%
+  filter(handedness == 1) %>%
+  filter(final_position == 0)
+
+right_left_count <- count(right_left)
+right_left_count
+
+left_right <- Q2_data %>%
+  filter(handedness == 0) %>%
+  filter(final_position == 1)
+
+left_right_count <- count(left_right)
+left_right_count
+
+#Form table
+Q2_dataFrame <- data.frame(Handedness = c('Right', 'Left'),
+                           Direction_first_stumble = c(53,22,22,54),
+                           Position_at_end = c(48,27,36,40))
+Q2_dataFrame
 ```
 
 **Null Hypothesis:** 
@@ -246,11 +319,44 @@ p < a, thus reject null hypothesis.
 
 **Conclusion:** Running time has a strong, negative correlation with calories burnt. Therefore the shorter runs burn more calories than longer runs.
 
+Furthermore if she decreased her running time by 30 minutes she would burn 1441.128 calories.
+
 ****
 
 # Questions 4
-## 
+## The relationship between project mark and final mark for BSc Honours Physiology students over 10 years.
 
+```{r Q4_dirty, fig.ext= 'pdf'}
+foo <- rnorm(10000, mean = 60, sd = 3) # final mark
+bar <- rnorm(10000, mean = 68, sd = 5) # project mark
+baz <- rep(seq(from = 1997, to = 2006), each = 1) # years
 
+year <- sample(baz, 150, replace = TRUE,
+               prob = c(0.05, 0.05, 0.08, 0.08, 
+                          0.1, 0.13, 0.14, 0.13, 0.12, 0.12))
+project_mark <- sample(bar, 150, replace = TRUE)
+final_mark <- sample(foo, 150, replace = TRUE)
+
+plot_data <- data_frame(year = year,
+                        project_mark = round(project_mark, 1),
+                        final_mark = round(final_mark, 1)) %>%
+    arrange(year)
+#Print out data
+head(plot_data, 6)
+
+#Scatter plot of data
+mark_plot <- plot(x = project_mark, y = final_mark,
+     main = 'Scatter plot representing project mark vs. final mark of BSc Honours Physiology students',
+     xlab = 'Project mark (%)', ylab = 'Final year mark (%)')
+
+mark_regl <- lm(final_mark~project_mark)
+abline(mark_regl)
+summary(mark_regl)
+```
+**Explanation of axis:**
+
+**x-axis =** project mark (independent variable) because is not affected by final year mark, however affects final year mark.
+
+**y-axis =** final year marl (dependent variable) because is affected by individual project marks over the years.
 
 ****

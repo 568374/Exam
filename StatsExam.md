@@ -263,8 +263,164 @@ Handedness compared to ataxic walking and intoxication
 #load data set
 df_Q2 <- read.csv('question2.csv')
 
-#plot data set
+#select data
+Q2_data <- df_Q2 %>%
+  select(handedness, final_position)
+
+Q2_data2 <- df_Q2 %>%
+  select(handedness, first_stumble)
+         
+#display data
+head(Q2_data, 6)
 ```
+
+    ##   handedness final_position
+    ## 1          1              1
+    ## 2          1              1
+    ## 3          1              1
+    ## 4          1              0
+    ## 5          1              0
+    ## 6          0              1
+
+``` r
+head(Q2_data2)
+```
+
+    ##   handedness first_stumble
+    ## 1          1             1
+    ## 2          1             1
+    ## 3          1             1
+    ## 4          1             1
+    ## 5          1             0
+    ## 6          0             0
+
+``` r
+#Counts (handedness and first stumble)
+rightS_side <- Q2_data2 %>%
+  filter(handedness == 1) %>%
+filter(first_stumble == 1)
+  
+rightS_count <- count(rightS_side)
+rightS_count
+```
+
+    ## # A tibble: 1 x 1
+    ##       n
+    ##   <int>
+    ## 1    53
+
+``` r
+leftS_side <- Q2_data2 %>%
+  filter(handedness == 0) %>%
+  filter(first_stumble == 0)
+  
+leftS_count <- count(leftS_side)
+leftS_count
+```
+
+    ## # A tibble: 1 x 1
+    ##       n
+    ##   <int>
+    ## 1    54
+
+``` r
+rightS_left <- Q2_data2 %>%
+  filter(handedness == 1) %>%
+  filter(first_stumble == 0)
+
+rightS_left_count <- count(rightS_left)
+rightS_left_count
+```
+
+    ## # A tibble: 1 x 1
+    ##       n
+    ##   <int>
+    ## 1    22
+
+``` r
+leftS_right <- Q2_data2 %>%
+  filter(handedness == 0) %>%
+  filter(first_stumble == 1)
+
+left_rightS_count <- count(leftS_right)
+left_rightS_count
+```
+
+    ## # A tibble: 1 x 1
+    ##       n
+    ##   <int>
+    ## 1    22
+
+``` r
+#Counts (handedness and position and end of walk)
+right_side <- Q2_data %>%
+  filter(handedness == 1) %>%
+filter(final_position == 1)
+  
+right_count <- count(right_side)
+right_count
+```
+
+    ## # A tibble: 1 x 1
+    ##       n
+    ##   <int>
+    ## 1    48
+
+``` r
+left_side <- Q2_data %>%
+  filter(handedness == 0) %>%
+  filter(final_position == 0)
+  
+left_count <- count(left_side)
+left_count
+```
+
+    ## # A tibble: 1 x 1
+    ##       n
+    ##   <int>
+    ## 1    40
+
+``` r
+right_left <- Q2_data %>%
+  filter(handedness == 1) %>%
+  filter(final_position == 0)
+
+right_left_count <- count(right_left)
+right_left_count
+```
+
+    ## # A tibble: 1 x 1
+    ##       n
+    ##   <int>
+    ## 1    27
+
+``` r
+left_right <- Q2_data %>%
+  filter(handedness == 0) %>%
+  filter(final_position == 1)
+
+left_right_count <- count(left_right)
+left_right_count
+```
+
+    ## # A tibble: 1 x 1
+    ##       n
+    ##   <int>
+    ## 1    36
+
+``` r
+#Form table
+Q2_dataFrame <- data.frame(Handedness = c('Right', 'Left'),
+                           Direction_first_stumble = c(53,22,22,54),
+                           Position_at_end = c(48,27,36,40))
+Q2_dataFrame
+```
+
+    ##   Handedness Direction_first_stumble Position_at_end
+    ## 1      Right                      53              48
+    ## 2       Left                      22              27
+    ## 3      Right                      22              36
+    ## 4       Left                      54              40
 
 **Null Hypothesis:**
 
@@ -416,9 +572,84 @@ p &lt; a, thus reject null hypothesis.
 
 **Conclusion:** Running time has a strong, negative correlation with calories burnt. Therefore the shorter runs burn more calories than longer runs.
 
+Furthermore if she decreased her running time by 30 minutes she would burn 1441.128 calories.
+
 ------------------------------------------------------------------------
 
 Questions 4
 ===========
+
+The relationship between project mark and final mark for BSc Honours Physiology students over 10 years.
+-------------------------------------------------------------------------------------------------------
+
+``` r
+foo <- rnorm(10000, mean = 60, sd = 3) # final mark
+bar <- rnorm(10000, mean = 68, sd = 5) # project mark
+baz <- rep(seq(from = 1997, to = 2006), each = 1) # years
+
+year <- sample(baz, 150, replace = TRUE,
+               prob = c(0.05, 0.05, 0.08, 0.08, 
+                          0.1, 0.13, 0.14, 0.13, 0.12, 0.12))
+project_mark <- sample(bar, 150, replace = TRUE)
+final_mark <- sample(foo, 150, replace = TRUE)
+
+plot_data <- data_frame(year = year,
+                        project_mark = round(project_mark, 1),
+                        final_mark = round(final_mark, 1)) %>%
+    arrange(year)
+#Print out data
+head(plot_data, 6)
+```
+
+    ## # A tibble: 6 x 3
+    ##    year project_mark final_mark
+    ##   <int>        <dbl>      <dbl>
+    ## 1  1997         68.5       65.9
+    ## 2  1997         68.9       56.2
+    ## 3  1997         65.4       62.8
+    ## 4  1997         70.0       61.2
+    ## 5  1997         69.9       57.1
+    ## 6  1997         67.5       56.1
+
+``` r
+#Scatter plot of data
+mark_plot <- plot(x = project_mark, y = final_mark,
+     main = 'Scatter plot representing project mark vs. final mark of BSc Honours Physiology students',
+     xlab = 'Project mark (%)', ylab = 'Final year mark (%)')
+
+mark_regl <- lm(final_mark~project_mark)
+abline(mark_regl)
+```
+
+<img src="figure/Q4_dirty-1.pdf" style="display: block; margin: auto;" />
+
+``` r
+summary(mark_regl)
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = final_mark ~ project_mark)
+    ## 
+    ## Residuals:
+    ##     Min      1Q  Median      3Q     Max 
+    ## -8.2422 -1.9513 -0.3337  1.8955  9.4795 
+    ## 
+    ## Coefficients:
+    ##               Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept)  5.973e+01  3.713e+00   16.09   <2e-16 ***
+    ## project_mark 1.611e-05  5.461e-02    0.00        1    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Residual standard error: 3.064 on 148 degrees of freedom
+    ## Multiple R-squared:  5.88e-10,   Adjusted R-squared:  -0.006757 
+    ## F-statistic: 8.703e-08 on 1 and 148 DF,  p-value: 0.9998
+
+**Explanation of axis:**
+
+**x-axis =** project mark (independent variable) because is not affected by final year mark, however affects final year mark.
+
+**y-axis =** final year marl (dependent variable) because is affected by individual project marks over the years.
 
 ------------------------------------------------------------------------
